@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom'
-import { Scissors, Sparkles, UserCheck, Star, Moon, Sun, Download, CheckCircle, Wand2 } from 'lucide-react'
+import { Scissors, Sparkles, UserCheck, Star, Moon, Sun, Download, CheckCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePWAInstall } from '../hooks/usePWAInstall'
 
 const CATEGORIES = [
-  { id: 'fade',    name: 'Classic Fades',   icon: Scissors,  desc: 'Skin fades, tapers & bursts' },
-  { id: 'haircut', name: 'Modern Cuts',      icon: Star,      desc: 'Quiffs, crops & pompadours' },
-  { id: 'beard',   name: 'Beard Styling',    icon: UserCheck, desc: 'Trims, Khat & sharp edges' },
-  { id: 'shave',   name: 'Hot Towel Shaves', icon: Sparkles,  desc: 'Straight razor perfection' },
+  { id: 'fade',    name: 'Classic Fades',     icon: Scissors,  desc: 'Skin fades, tapers & bursts' },
+  { id: 'haircut', name: 'Modern Cuts',        icon: Star,      desc: 'Quiffs, crops & pompadours' },
+  { id: 'beard',   name: 'Beard Styling',      icon: UserCheck, desc: 'Trims, Khat & sharp edges' },
+  { id: 'shave',   name: 'Hot Towel Shaves',   icon: Sparkles,  desc: 'Straight razor perfection' },
 ]
 
 export default function Home({ isDarkMode, toggleTheme }) {
@@ -24,9 +24,12 @@ export default function Home({ isDarkMode, toggleTheme }) {
     >
       {/* Top Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px 0', alignItems: 'center' }}>
+
+        {/* Install Button */}
         <AnimatePresence>
           {isInstalled ? (
             <motion.div
+              key="installed"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               className="neu-inset"
@@ -36,14 +39,15 @@ export default function Home({ isDarkMode, toggleTheme }) {
             </motion.div>
           ) : canInstall ? (
             <motion.button
+              key="install-btn"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="neu-box"
+              className="neu-button neu-button-primary"
               onClick={install}
               disabled={isInstalling}
-              style={{ padding: '8px 14px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '7px', fontSize: '0.78rem', cursor: 'pointer', color: 'var(--accent-color)' }}
+              style={{ padding: '9px 16px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '7px', fontSize: '0.82rem', cursor: 'pointer' }}
             >
-              <Download size={14} color="var(--accent-color)" />
+              <Download size={15} />
               {isInstalling ? 'Installing...' : 'Install App'}
             </motion.button>
           ) : (
@@ -51,6 +55,7 @@ export default function Home({ isDarkMode, toggleTheme }) {
           )}
         </AnimatePresence>
 
+        {/* Theme Toggle */}
         <button
           className="neu-box"
           onClick={toggleTheme}
@@ -75,44 +80,44 @@ export default function Home({ isDarkMode, toggleTheme }) {
         </div>
       </header>
 
-      {/* AI Try-On Banner */}
-      <section style={{ padding: '0 20px 24px' }}>
-        <motion.div
-          className="neu-box"
-          style={{
-            padding: '20px',
-            borderRadius: '20px',
-            cursor: 'pointer',
-            background: 'linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04))',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            border: '1px solid rgba(212,175,55,0.2)',
-          }}
-          onClick={() => navigate('/ai-tryon')}
-          whileTap={{ scale: 0.97 }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <div
-            className="neu-inset"
-            style={{ width: '56px', height: '56px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+      {/* Install Banner — shown when installable */}
+      <AnimatePresence>
+        {canInstall && !isInstalled && (
+          <motion.section
+            key="install-banner"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            style={{ padding: '0 20px 20px' }}
           >
-            <Wand2 size={26} color="var(--accent-color)" />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <h3 style={{ fontSize: '1rem', margin: 0 }}>AI Try-On</h3>
-              <span style={{ fontSize: '0.6rem', backgroundColor: 'var(--accent-color)', color: 'var(--bg-color)', padding: '2px 7px', borderRadius: '20px', fontWeight: '700' }}>NEW</span>
+            <div
+              className="neu-box"
+              style={{
+                padding: '16px 20px', borderRadius: '18px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                background: 'linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.04))',
+                border: '1px solid rgba(212,175,55,0.2)',
+              }}
+            >
+              <div>
+                <p style={{ fontWeight: '700', fontSize: '0.95rem', margin: 0 }}>📲 App Install Karein</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', margin: '3px 0 0' }}>
+                  Home screen pe add karein — fast & offline
+                </p>
+              </div>
+              <button
+                className="neu-button neu-button-primary"
+                onClick={install}
+                disabled={isInstalling}
+                style={{ padding: '10px 16px', borderRadius: '12px', fontSize: '0.82rem', flexShrink: 0, marginLeft: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                <Download size={14} />
+                {isInstalling ? '...' : 'Install'}
+              </button>
             </div>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', margin: 0 }}>
-              Apni photo pe style preview karein
-            </p>
-          </div>
-          <span style={{ color: 'var(--accent-color)', fontSize: '1.2rem' }}>→</span>
-        </motion.div>
-      </section>
+          </motion.section>
+        )}
+      </AnimatePresence>
 
       {/* Categories */}
       <section style={{ padding: '0 20px 40px' }}>
@@ -129,7 +134,7 @@ export default function Home({ isDarkMode, toggleTheme }) {
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 + 0.2 }}
+                transition={{ delay: i * 0.1 }}
               >
                 <div
                   className="neu-inset"
