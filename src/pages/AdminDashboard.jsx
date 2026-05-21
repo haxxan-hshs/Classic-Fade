@@ -34,15 +34,15 @@ export default function AdminDashboard() {
     // Fetch bookings
     fetchBookings()
 
-    // Real-time subscription
+    // Real-time subscription — only if supabase available
+    if (!supabase) return
+
     const channel = supabase
       .channel('bookings-realtime')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'bookings' },
-        () => {
-          fetchBookings()
-        }
+        () => { fetchBookings() }
       )
       .subscribe()
 
@@ -53,6 +53,10 @@ export default function AdminDashboard() {
 
   const fetchBookings = async () => {
     setLoading(true)
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
     const { data, error } = await supabase
       .from('bookings')
       .select('*')
@@ -63,6 +67,7 @@ export default function AdminDashboard() {
   }
 
   const updateStatus = async (id, newStatus) => {
+    if (!supabase) return
     const { error } = await supabase
       .from('bookings')
       .update({ status: newStatus })

@@ -67,15 +67,14 @@ export default function Catalog() {
   const handleBookNow = async (item) => {
     setLoadingId(item.id)
 
-    // Save to Supabase
-    const { error } = await supabase.from('bookings').insert({
-      style_name: item.name,
-      style_img: item.img,
-      status: 'pending',
-    })
-
-    if (error) {
-      console.error('Booking error:', error)
+    // Save to Supabase if available
+    if (supabase) {
+      const { error } = await supabase.from('bookings').insert({
+        style_name: item.name,
+        style_img: item.img,
+        status: 'pending',
+      })
+      if (error) console.error('Booking error:', error)
     }
 
     setLoadingId(null)
