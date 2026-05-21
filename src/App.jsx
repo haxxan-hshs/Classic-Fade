@@ -35,7 +35,10 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admindashboard" element={<AdminDashboard />} />
+          <Route path="*" element={<Home isDarkMode={isDarkMode} toggleTheme={toggleTheme} />} />
         </Routes>
       </AnimatePresence>
     </>
