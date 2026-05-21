@@ -6,6 +6,7 @@ import Catalog from './pages/Catalog'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import UserDashboard from './pages/UserDashboard'
+import AITryOn from './pages/AITryOn'
 import IntroAnimation from './components/IntroAnimation'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home isDarkMode={isDarkMode} toggleTheme={toggleTheme} />} />
           <Route path="/catalog" element={<Catalog />} />
+          <Route path="/ai-tryon" element={<AITryOn />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/adminlogin" element={<AdminLogin />} />
