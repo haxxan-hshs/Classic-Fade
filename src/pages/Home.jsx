@@ -155,7 +155,7 @@ export default function Home({ isDarkMode, toggleTheme }) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                onClick={() => navigate('/book', { state: { serviceId: svc.id } })}
+                onClick={() => navigate('/catalog', { state: { category: svc.category } })}
               >
                 <div style={{ height: '110px', overflow: 'hidden' }}>
                   <img src={svc.img_url} alt={svc.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.style.display = 'none'} />
