@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import BookingFlow from './pages/BookingFlow'
 import Barbers from './pages/Barbers'
+import Community from './pages/Community'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import UserDashboard from './pages/UserDashboard'
@@ -39,6 +40,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/book" element={<BookingFlow />} />
           <Route path="/barbers" element={<Barbers />} />
+          <Route path="/community" element={<Community />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<UserDashboard />} />

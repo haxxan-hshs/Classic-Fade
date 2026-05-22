@@ -62,13 +62,10 @@ function ServiceCard({ svc, onBook, onWhatsApp, index }) {
         <h3 style={{ fontSize: '1rem', margin: '0 0 6px', fontWeight: '700' }}>{svc.name}</h3>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', margin: '0 0 12px', lineHeight: '1.5', flex: 1 }}>{svc.desc}</p>
 
-        {/* Price */}
+        {/* Face Shapes & Time */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-          <span style={{ color: 'var(--accent-color)', fontWeight: '800', fontSize: '1.1rem' }}>
-            {svc.price === 0 ? 'Ask Price' : `Rs. ${svc.price.toLocaleString()}`}
-          </span>
-          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-            {svc.faceShapes.slice(0, 2).map(f => (
+          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+            {svc.faceShapes.slice(0, 3).map(f => (
               <span key={f} style={{ fontSize: '0.58rem', backgroundColor: 'rgba(136,136,153,0.15)', color: 'var(--text-muted)', padding: '2px 6px', borderRadius: '8px' }}>{f}</span>
             ))}
           </div>

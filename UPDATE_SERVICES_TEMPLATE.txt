@@ -1,0 +1,164 @@
+=================================================================
+SERVICES.JS UPDATE TEMPLATE
+=================================================================
+
+Copy-paste these replacements into your services.js file:
+
+=================================================================
+FADE SERVICES (10)
+=================================================================
+
+low-fade:
+img: '/images/low-fade.jpg',
+
+mid-fade:
+img: '/images/mid-fade.jpg',
+
+high-fade:
+img: '/images/high-fade.jpg',
+
+skin-fade:
+img: '/images/skin-fade.jpg',
+
+drop-fade:
+img: '/images/drop-fade.jpg',
+
+burst-fade:
+img: '/images/burst-fade.jpg',
+
+temple-fade:
+img: '/images/temple-fade.jpg',
+
+shadow-fade:
+img: '/images/shadow-fade.jpg',
+
+bald-fade:
+img: '/images/bald-fade.jpg',
+
+taper-fade:
+img: '/images/taper-fade.jpg',
+
+=================================================================
+MODERN HAIRCUTS (15)
+=================================================================
+
+french-crop:
+img: '/images/french-crop.jpg',
+
+textured-crop:
+img: '/images/textured-crop.jpg',
+
+buzz-cut:
+img: '/images/buzz-cut.jpg',
+
+crew-cut:
+img: '/images/crew-cut.jpg',
+
+caesar-cut:
+img: '/images/caesar-cut.jpg',
+
+pompadour:
+img: '/images/pompadour.jpg',
+
+slick-back:
+img: '/images/slick-back.jpg',
+
+side-part:
+img: '/images/side-part.jpg',
+
+quiff:
+img: '/images/quiff.jpg',
+
+mohawk-fade:
+img: '/images/mohawk-fade.jpg',
+
+faux-hawk:
+img: '/images/faux-hawk.jpg',
+
+undercut:
+img: '/images/undercut.jpg',
+
+comb-over:
+img: '/images/comb-over.jpg',
+
+curly-top-fade:
+img: '/images/curly-top-fade.jpg',
+
+afro-fade:
+img: '/images/afro-fade.jpg',
+
+=================================================================
+BEARD SERVICES (18)
+=================================================================
+
+beard-trim:
+img: '/images/beard-trim.jpg',
+
+beard-lineup:
+img: '/images/beard-lineup.jpg',
+
+clean-shave:
+img: '/images/clean-shave.jpg',
+
+hot-towel-shave:
+img: '/images/hot-towel-shave.jpg',
+
+royal-shave:
+img: '/images/royal-shave.jpg',
+
+low-beard-fade:
+img: '/images/low-beard-fade.jpg',
+
+mid-beard-fade:
+img: '/images/mid-beard-fade.jpg',
+
+high-beard-fade:
+img: '/images/high-beard-fade.jpg',
+
+sharp-beard-fade:
+img: '/images/sharp-beard-fade.jpg',
+
+full-beard:
+img: '/images/full-beard.jpg',
+
+ducktail-beard:
+img: '/images/ducktail-beard.jpg',
+
+boxed-beard:
+img: '/images/boxed-beard.jpg',
+
+circle-beard:
+img: '/images/circle-beard.jpg',
+
+balbo-beard:
+img: '/images/balbo-beard.jpg',
+
+van-dyke:
+img: '/images/van-dyke.jpg',
+
+anchor-beard:
+img: '/images/anchor-beard.jpg',
+
+stubble-beard:
+img: '/images/stubble-beard.jpg',
+
+viking-beard:
+img: '/images/viking-beard.jpg',
+
+=================================================================
+QUICK FIND & REPLACE
+=================================================================
+
+Use your code editor's Find & Replace (Ctrl+H):
+
+1. Find: price: \d+,
+   Replace: (leave empty)
+   This removes all price fields
+
+2. Find: img: 'https://images\.unsplash\.com/[^']+',
+   Replace: img: '/images/placeholder.jpg',
+   This replaces all Unsplash URLs
+
+Then manually update specific services with correct image names.
+
+=================================================================

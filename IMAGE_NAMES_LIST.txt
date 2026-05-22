@@ -1,0 +1,222 @@
+═══════════════════════════════════════════════════════════
+CLASSIC FADE — Complete Image Names List
+═══════════════════════════════════════════════════════════
+
+📁 Folder Location: public/images/
+
+⚠️ IMPORTANT: Image names must match EXACTLY (case-sensitive)
+
+═══════════════════════════════════════════════════════════
+FADE HAIRCUTS (10 images)
+═══════════════════════════════════════════════════════════
+low-fade.jpg
+mid-fade.jpg
+high-fade.jpg
+skin-fade.jpg
+drop-fade.jpg
+burst-fade.jpg
+temple-fade.jpg
+shadow-fade.jpg
+bald-fade.jpg
+taper-fade.jpg
+
+═══════════════════════════════════════════════════════════
+MODERN HAIRCUTS (15 images)
+═══════════════════════════════════════════════════════════
+french-crop.jpg
+textured-crop.jpg
+buzz-cut.jpg
+crew-cut.jpg
+caesar-cut.jpg
+pompadour.jpg
+slick-back.jpg
+side-part.jpg
+quiff.jpg
+mohawk-fade.jpg
+faux-hawk.jpg
+undercut.jpg
+comb-over.jpg
+curly-top-fade.jpg
+afro-fade.jpg
+
+═══════════════════════════════════════════════════════════
+BEARD SERVICES (18 images)
+═══════════════════════════════════════════════════════════
+beard-trim.jpg
+beard-lineup.jpg
+clean-shave.jpg
+hot-towel-shave.jpg
+royal-shave.jpg
+low-beard-fade.jpg
+mid-beard-fade.jpg
+high-beard-fade.jpg
+sharp-beard-fade.jpg
+full-beard.jpg
+ducktail-beard.jpg
+boxed-beard.jpg
+circle-beard.jpg
+balbo-beard.jpg
+van-dyke.jpg
+anchor-beard.jpg
+stubble-beard.jpg
+viking-beard.jpg
+
+═══════════════════════════════════════════════════════════
+LUXURY & TREND STYLES (10 images) — OPTIONAL
+═══════════════════════════════════════════════════════════
+modern-mullet.jpg
+wolf-cut.jpg
+two-block.jpg
+edgar-cut.jpg
+broccoli.jpg
+messy-fringe.jpg
+blowout-taper.jpg
+samurai-bun.jpg
+long-layer.jpg
+korean-style.jpg
+
+═══════════════════════════════════════════════════════════
+KIDS HAIRCUTS (4 images) — OPTIONAL
+═══════════════════════════════════════════════════════════
+kids-fade.jpg
+kids-mohawk.jpg
+kids-side-part.jpg
+cartoon-cut.jpg
+
+═══════════════════════════════════════════════════════════
+HAIR COLOR (7 images) — OPTIONAL
+═══════════════════════════════════════════════════════════
+black-color.jpg
+blonde-highlights.jpg
+silver-color.jpg
+white-platinum.jpg
+brown-texture.jpg
+red-tone.jpg
+custom-color.jpg
+
+═══════════════════════════════════════════════════════════
+FACIAL & GROOMING (8 images) — OPTIONAL
+═══════════════════════════════════════════════════════════
+face-cleanup.jpg
+gold-facial.jpg
+charcoal-facial.jpg
+acne-facial.jpg
+black-mask.jpg
+hair-spa.jpg
+head-massage.jpg
+steam-therapy.jpg
+
+═══════════════════════════════════════════════════════════
+COMBO PACKAGES (5 images) — OPTIONAL
+═══════════════════════════════════════════════════════════
+combo-haircut-beard.jpg
+combo-fade-facial.jpg
+vip-package.jpg
+wedding-package.jpg
+monthly-membership.jpg
+
+═══════════════════════════════════════════════════════════
+TOTAL IMAGES NEEDED
+═══════════════════════════════════════════════════════════
+✅ REQUIRED (Core Services): 43 images
+   - Fade Haircuts: 10
+   - Modern Haircuts: 15
+   - Beard Services: 18
+
+⭐ OPTIONAL (Additional Services): 34 images
+   - Luxury Styles: 10
+   - Kids: 4
+   - Color: 7
+   - Facial: 8
+   - Combos: 5
+
+📊 TOTAL: 77 images
+
+═══════════════════════════════════════════════════════════
+IMAGE REQUIREMENTS
+═══════════════════════════════════════════════════════════
+✓ Format: JPG, PNG, or WebP
+✓ Size: Minimum 800x800 pixels (recommended)
+✓ File Size: Maximum 500KB per image
+✓ Quality: High quality, clear images
+✓ Style: Professional barber shop photos
+✓ Names: Must match exactly (lowercase, hyphens)
+
+═══════════════════════════════════════════════════════════
+QUICK START (Minimum Required)
+═══════════════════════════════════════════════════════════
+Agar aap jaldi start karna chahte hain, to pehle ye 10 images add karein:
+
+1. low-fade.jpg
+2. mid-fade.jpg
+3. high-fade.jpg
+4. beard-trim.jpg
+5. hot-towel-shave.jpg
+6. pompadour.jpg
+7. french-crop.jpg
+8. undercut.jpg
+9. clean-shave.jpg
+10. royal-shave.jpg
+
+Baaki images baad mein add kar sakte hain.
+
+═══════════════════════════════════════════════════════════
+FOLDER STRUCTURE
+═══════════════════════════════════════════════════════════
+d:\Classic Fade\
+  └── public\
+      └── images\
+          ├── low-fade.jpg
+          ├── mid-fade.jpg
+          ├── high-fade.jpg
+          ├── skin-fade.jpg
+          ├── drop-fade.jpg
+          ├── burst-fade.jpg
+          ├── temple-fade.jpg
+          ├── shadow-fade.jpg
+          ├── bald-fade.jpg
+          ├── taper-fade.jpg
+          ├── french-crop.jpg
+          ├── textured-crop.jpg
+          ├── buzz-cut.jpg
+          ├── crew-cut.jpg
+          ├── caesar-cut.jpg
+          ├── pompadour.jpg
+          ├── slick-back.jpg
+          ├── side-part.jpg
+          ├── quiff.jpg
+          ├── mohawk-fade.jpg
+          ├── faux-hawk.jpg
+          ├── undercut.jpg
+          ├── comb-over.jpg
+          ├── curly-top-fade.jpg
+          ├── afro-fade.jpg
+          ├── beard-trim.jpg
+          ├── beard-lineup.jpg
+          ├── clean-shave.jpg
+          ├── hot-towel-shave.jpg
+          ├── royal-shave.jpg
+          ├── low-beard-fade.jpg
+          ├── mid-beard-fade.jpg
+          ├── high-beard-fade.jpg
+          ├── sharp-beard-fade.jpg
+          ├── full-beard.jpg
+          ├── ducktail-beard.jpg
+          ├── boxed-beard.jpg
+          ├── circle-beard.jpg
+          ├── balbo-beard.jpg
+          ├── van-dyke.jpg
+          ├── anchor-beard.jpg
+          ├── stubble-beard.jpg
+          └── viking-beard.jpg
+
+═══════════════════════════════════════════════════════════
+NOTES
+═══════════════════════════════════════════════════════════
+• Agar koi image missing hai, placeholder image dikhegi
+• Images ko baad mein bhi add kar sakte hain
+• Image names case-sensitive hain (lowercase use karein)
+• Hyphens (-) zaroori hain, spaces nahi
+• File extension .jpg, .png, ya .webp ho sakti hai
+
+═══════════════════════════════════════════════════════════
