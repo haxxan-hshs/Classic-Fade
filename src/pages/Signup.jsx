@@ -17,21 +17,44 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault()
     setError('')
-    if (form.password.length < 6) { setError('Password kam az kam 6 characters ka hona chahiye.'); return }
+    
+    // Check if Supabase is configured
+    if (!supabase) {
+      setError('Supabase configuration missing. Please check .env.local file.')
+      return
+    }
+    
+    if (form.password.length < 6) { 
+      setError('Password kam az kam 6 characters ka hona chahiye.')
+      return 
+    }
+    
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: {
-        data: { name: form.name, phone: form.phone }
+    
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+        options: {
+          data: { name: form.name, phone: form.phone },
+          emailRedirectTo: window.location.origin
+        }
+      })
+      
+      setLoading(false)
+      
+      if (error) {
+        console.error('Signup error:', error)
+        setError(error.message || 'Signup failed. Please try again.')
+      } else {
+        console.log('Signup success:', data)
+        setSuccess(true)
+        setTimeout(() => navigate('/login'), 3000)
       }
-    })
-    setLoading(false)
-    if (error) {
-      setError(error.message)
-    } else {
-      setSuccess(true)
-      setTimeout(() => navigate('/login'), 3000)
+    } catch (err) {
+      setLoading(false)
+      console.error('Signup exception:', err)
+      setError('Network error. Please check your connection.')
     }
   }
 
