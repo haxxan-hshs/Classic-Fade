@@ -11,6 +11,8 @@ import Community from './pages/Community'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import UserDashboard from './pages/UserDashboard'
+import AITryOn from './pages/AITryOn'
+import VirtualMakeover from './pages/VirtualMakeover'
 import IntroAnimation from './components/IntroAnimation'
 import ErrorBoundary from './components/ErrorBoundary'
 
@@ -45,6 +47,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/ai-tryon" element={<AITryOn />} />
+          <Route path="/virtual-makeover" element={<VirtualMakeover />} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
