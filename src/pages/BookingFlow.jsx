@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Star, Clock, CheckCircle, Calendar, MessageCircle, User } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Star, Clock, CheckCircle, Calendar, MessageCircle, User, Camera, Sparkles, X, Upload } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { format, addDays, isToday, isTomorrow } from 'date-fns'
 
@@ -70,6 +70,13 @@ export default function BookingFlow() {
     notes: '',
   })
 
+  // AI Preview states
+  const [showAIPreview, setShowAIPreview] = useState(false)
+  const [userPhoto, setUserPhoto] = useState(null)
+  const [generatedImage, setGeneratedImage] = useState(null)
+  const [generating, setGenerating] = useState(false)
+  const [aiError, setAiError] = useState(null)
+
   useEffect(() => {
     loadData()
     supabase?.auth.getUser().then(({ data }) => {
@@ -94,13 +101,16 @@ const loadData = async () => {
   // If supabase is not configured, use fallback data
   if (!supabase) {
     setServices([
-      { id: 1, name: 'Classic Haircut', category: 'haircut', price: 500, duration: 30, img_url: '/styles/classic.jpg' },
-      { id: 2, name: 'Beard Trim', category: 'beard', price: 300, duration: 20, img_url: '/styles/beard.jpg' },
-      { id: 3, name: 'Hair + Beard Combo', category: 'combo', price: 700, duration: 45, img_url: '/styles/combo.jpg' },
+      { id: 1, name: 'Low Fade', category: 'fade', price: 400, duration_mins: 30, img_url: '/styles/fade.jpg', description: 'Classic low fade with clean lines' },
+      { id: 2, name: 'Mid Fade', category: 'fade', price: 450, duration_mins: 35, img_url: '/styles/fade.jpg', description: 'Modern mid fade style' },
+      { id: 3, name: 'High Fade', category: 'fade', price: 450, duration_mins: 35, img_url: '/styles/fade.jpg', description: 'Bold high fade look' },
+      { id: 4, name: 'Classic Haircut', category: 'haircut', price: 500, duration_mins: 30, img_url: '/styles/classic.jpg', description: 'Traditional gentleman cut' },
+      { id: 5, name: 'Beard Trim', category: 'beard', price: 300, duration_mins: 20, img_url: '/styles/beard.jpg', description: 'Shape and trim your beard' },
+      { id: 6, name: 'Hair + Beard Combo', category: 'combo', price: 700, duration_mins: 45, img_url: '/styles/combo.jpg', description: 'Complete grooming package' },
     ])
     setBarbers([
-      { id: 1, name: 'Ahmed', rating: 4.8, specialty: 'Classic Cuts', avatar_url: '/barbers/ahmed.jpg' },
-      { id: 2, name: 'Ali', rating: 4.9, specialty: 'Modern Styles', avatar_url: '/barbers/ali.jpg' },
+      { id: 1, name: 'Ahmed', rating: 4.8, bio: 'Classic Cuts Expert', photo_url: '/barbers/ahmed.jpg', specialties: ['Fades', 'Classic'], experience_years: 5, total_cuts: 2500 },
+      { id: 2, name: 'Ali', rating: 4.9, bio: 'Modern Styles Specialist', photo_url: '/barbers/ali.jpg', specialties: ['Modern', 'Beard'], experience_years: 7, total_cuts: 4000 },
     ])
     setLoading(false)
     return
@@ -188,6 +198,58 @@ const loadBookedSlots = async () => {
     window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, '_blank')
   }
 
+  // AI Preview functions
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      setUserPhoto(event.target.result)
+      setGeneratedImage(null)
+      setAiError(null)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const generateAIPreview = async () => {
+    if (!userPhoto || !selected.service) return
+    
+    setGenerating(true)
+    setAiError(null)
+    setGeneratedImage(null)
+    
+    try {
+      const prompt = `Pakistani man with ${selected.service.name} hairstyle, same face, professional barbershop result, clean and stylish, photorealistic`
+      
+      const response = await fetch('/api/ai-tryon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: userPhoto,
+          prompt: prompt,
+        }),
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'AI generation failed')
+      }
+      
+      if (data.output) {
+        setGeneratedImage(data.output)
+      } else {
+        throw new Error('No image generated')
+      }
+    } catch (err) {
+      console.error('AI Preview error:', err)
+      setAiError(err.message || 'Kuch galat ho gaya, dobara try karein')
+    } finally {
+      setGenerating(false)
+    }
+  }
+
   const canNext = () => {
     if (step === 0) return !!selected.service
     if (step === 1) return !!selected.barber
@@ -257,7 +319,7 @@ const loadBookedSlots = async () => {
           {step === 0 && (
             <motion.div key="step0" initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -40, opacity: 0 }}>
               <h2 style={{ fontSize: '1.1rem', marginBottom: '16px', color: 'var(--text-muted)' }}>Kaunsi service chahiye?</h2>
-              {['fade', 'haircut', 'beard', 'shave'].map(cat => {
+              {['fade', 'haircut', 'beard', 'combo'].map(cat => {
                 const catServices = services.filter(s => s.category === cat)
                 if (!catServices.length) return null
                 return (
@@ -296,6 +358,36 @@ const loadBookedSlots = async () => {
                   </div>
                 )
               })}
+              
+              {/* AI Preview Button */}
+              {selected.service && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{ marginTop: '16px', marginBottom: '24px' }}
+                >
+                  <button 
+                    className="neu-button"
+                    onClick={() => setShowAIPreview(true)}
+                    style={{ 
+                      width: '100%', 
+                      padding: '16px', 
+                      borderRadius: '16px',
+                      background: 'linear-gradient(135deg, var(--accent-color) 0%, #c9a227 100%)',
+                      color: '#000',
+                      fontWeight: '700',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '10px',
+                      fontSize: '0.95rem',
+                    }}
+                  >
+                    <Sparkles size={20} />
+                    AI se Dekho - Ye Style Tum Par Kaisa Lagega?
+                  </button>
+                </motion.div>
+              )}
             </motion.div>
           )}
 
@@ -488,10 +580,192 @@ const loadBookedSlots = async () => {
             disabled={!selected.name || !selected.phone || submitting}
             onClick={handleSubmit}
           >
-            {submitting ? 'Booking Ho Rahi Hai...' : '✅ Booking Confirm Karein'}
+            {submitting ? 'Booking Ho Rahi Hai...' : 'Booking Confirm Karein'}
           </button>
         )}
       </div>
+
+      {/* AI Preview Modal */}
+      <AnimatePresence>
+        {showAIPreview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              zIndex: 100,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px',
+            }}
+            onClick={() => !generating && setShowAIPreview(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="neu-box"
+              style={{
+                width: '100%',
+                maxWidth: '400px',
+                maxHeight: '90vh',
+                overflowY: 'auto',
+                borderRadius: '24px',
+                padding: '24px',
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div>
+                  <h2 style={{ fontSize: '1.2rem', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Sparkles size={22} color="var(--accent-color)" />
+                    AI Style Preview
+                  </h2>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: '4px 0 0' }}>
+                    Dekho {selected.service?.name} tum par kaisa lagega
+                  </p>
+                </div>
+                <button
+                  className="neu-button"
+                  style={{ padding: '8px', borderRadius: '50%' }}
+                  onClick={() => !generating && setShowAIPreview(false)}
+                  disabled={generating}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Upload Section */}
+              <div style={{ marginBottom: '20px' }}>
+                <label 
+                  className="neu-inset"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '24px',
+                    borderRadius: '16px',
+                    cursor: 'pointer',
+                    minHeight: '180px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {userPhoto ? (
+                    <img 
+                      src={userPhoto} 
+                      alt="Your photo" 
+                      style={{ 
+                        width: '100%', 
+                        height: '180px', 
+                        objectFit: 'cover', 
+                        borderRadius: '12px' 
+                      }} 
+                    />
+                  ) : (
+                    <>
+                      <Camera size={40} color="var(--accent-color)" style={{ marginBottom: '12px' }} />
+                      <p style={{ color: 'var(--text-color)', fontWeight: '600', margin: '0 0 4px' }}>Apni Photo Upload Karein</p>
+                      <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', margin: 0 }}>Clear face photo best results degi</p>
+                    </>
+                  )}
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handlePhotoUpload}
+                    style={{ display: 'none' }} 
+                  />
+                </label>
+                {userPhoto && (
+                  <button
+                    className="neu-button"
+                    style={{ width: '100%', marginTop: '10px', padding: '10px', borderRadius: '10px', fontSize: '0.85rem' }}
+                    onClick={() => { setUserPhoto(null); setGeneratedImage(null); }}
+                  >
+                    <Upload size={14} style={{ marginRight: '6px' }} />
+                    Doosri Photo Upload Karein
+                  </button>
+                )}
+              </div>
+
+              {/* Generate Button */}
+              <button
+                className="neu-button"
+                disabled={!userPhoto || generating}
+                onClick={generateAIPreview}
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  borderRadius: '14px',
+                  background: userPhoto && !generating ? 'linear-gradient(135deg, var(--accent-color) 0%, #c9a227 100%)' : 'var(--bg-color)',
+                  color: userPhoto && !generating ? '#000' : 'var(--text-muted)',
+                  fontWeight: '700',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  marginBottom: '20px',
+                  opacity: userPhoto ? 1 : 0.5,
+                }}
+              >
+                {generating ? (
+                  <>
+                    <div style={{ width: '18px', height: '18px', border: '2px solid #000', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+                    AI Generate Ho Rahi Hai...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={18} />
+                    Generate Image
+                  </>
+                )}
+              </button>
+
+              {/* Error Message */}
+              {aiError && (
+                <div style={{ 
+                  padding: '12px 16px', 
+                  backgroundColor: 'rgba(231,76,60,0.15)', 
+                  borderRadius: '12px', 
+                  marginBottom: '20px',
+                  color: '#e74c3c',
+                  fontSize: '0.85rem',
+                  textAlign: 'center'
+                }}>
+                  {aiError}
+                </div>
+              )}
+
+              {/* Generated Result */}
+              {generatedImage && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <h3 style={{ fontSize: '0.9rem', color: 'var(--accent-color)', marginBottom: '12px', textAlign: 'center' }}>
+                    Ye Raha Aapka Naya Look!
+                  </h3>
+                  <div className="neu-inset" style={{ borderRadius: '16px', overflow: 'hidden' }}>
+                    <img 
+                      src={generatedImage} 
+                      alt="AI Generated Preview" 
+                      style={{ width: '100%', display: 'block' }}
+                    />
+                  </div>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', textAlign: 'center', marginTop: '12px' }}>
+                    Pasand aaya? Booking confirm karein!
+                  </p>
+                </motion.div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
