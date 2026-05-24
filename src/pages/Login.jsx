@@ -16,6 +16,14 @@ export default function Login() {
     e.preventDefault()
     setError('')
     setLoading(true)
+    
+    if (!supabase) {
+      // Demo mode - allow any login when supabase is not configured
+      setLoading(false)
+      navigate('/')
+      return
+    }
+    
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     setLoading(false)
     if (error) {
