@@ -88,12 +88,28 @@ export default function BookingFlow() {
     if (selected.barber && selected.date) loadBookedSlots()
   }, [selected.barber, selected.date])
 
-  const loadData = async () => {
-    setLoading(true)
-    const [{ data: svcs }, { data: brbrs }] = await Promise.all([
-      supabase.from('services').select('*').eq('is_active', true).order('category'),
-      supabase.from('barbers').select('*').eq('is_available', true).order('rating', { ascending: false }),
+const loadData = async () => {
+  setLoading(true)
+  
+  // If supabase is not configured, use fallback data
+  if (!supabase) {
+    setServices([
+      { id: 1, name: 'Classic Haircut', category: 'haircut', price: 500, duration: 30, img_url: '/styles/classic.jpg' },
+      { id: 2, name: 'Beard Trim', category: 'beard', price: 300, duration: 20, img_url: '/styles/beard.jpg' },
+      { id: 3, name: 'Hair + Beard Combo', category: 'combo', price: 700, duration: 45, img_url: '/styles/combo.jpg' },
     ])
+    setBarbers([
+      { id: 1, name: 'Ahmed', rating: 4.8, specialty: 'Classic Cuts', avatar_url: '/barbers/ahmed.jpg' },
+      { id: 2, name: 'Ali', rating: 4.9, specialty: 'Modern Styles', avatar_url: '/barbers/ali.jpg' },
+    ])
+    setLoading(false)
+    return
+  }
+  
+  const [{ data: svcs }, { data: brbrs }] = await Promise.all([
+    supabase.from('services').select('*').eq('is_active', true).order('category'),
+    supabase.from('barbers').select('*').eq('is_available', true).order('rating', { ascending: false }),
+  ])
     setServices(svcs || [])
     setBarbers(brbrs || [])
 
@@ -104,15 +120,19 @@ export default function BookingFlow() {
     setLoading(false)
   }
 
-  const loadBookedSlots = async () => {
-    const dateStr = format(selected.date, 'yyyy-MM-dd')
-    const { data } = await supabase
-      .from('bookings')
-      .select('slot_time')
-      .eq('barber_id', selected.barber.id)
-      .eq('slot_date', dateStr)
-      .in('status', ['pending', 'confirmed'])
-    setBookedSlots((data || []).map(b => b.slot_time))
+const loadBookedSlots = async () => {
+  if (!supabase) {
+    setBookedSlots([])
+    return
+  }
+  const dateStr = format(selected.date, 'yyyy-MM-dd')
+  const { data } = await supabase
+  .from('bookings')
+  .select('slot_time')
+  .eq('barber_id', selected.barber.id)
+  .eq('slot_date', dateStr)
+  .in('status', ['pending', 'confirmed'])
+  setBookedSlots((data || []).map(b => b.slot_time))
   }
 
   const getDates = () => Array.from({ length: 7 }, (_, i) => addDays(new Date(), i))
@@ -142,16 +162,23 @@ export default function BookingFlow() {
       status: 'pending',
     }
 
-    const { error } = await supabase.from('bookings').insert(bookingData)
+    // If supabase is available, insert to database
+    if (supabase) {
+      const { error } = await supabase.from('bookings').insert(bookingData)
+      if (error) {
+        console.error('Booking error:', error)
+        setSubmitting(false)
+        return
+      }
+    }
+    
     setSubmitting(false)
 
-    if (!error) {
-      // Save to local history
-      const history = JSON.parse(localStorage.getItem('bookingHistory')) || []
-      history.push({ styleName: selected.service.name, date: new Date().toISOString() })
-      localStorage.setItem('bookingHistory', JSON.stringify(history))
-      setDone(true)
-    }
+    // Save to local history
+    const history = JSON.parse(localStorage.getItem('bookingHistory')) || []
+    history.push({ styleName: selected.service.name, date: new Date().toISOString() })
+    localStorage.setItem('bookingHistory', JSON.stringify(history))
+    setDone(true)
   }
 
   const handleWhatsApp = () => {

@@ -10,6 +10,15 @@ export default function Barbers() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!supabase) {
+      // Fallback data when supabase is not configured
+      setBarbers([
+        { id: 1, name: 'Ahmed', rating: 4.8, specialty: 'Classic Cuts', avatar_url: '/barbers/ahmed.jpg', experience: '5 years' },
+        { id: 2, name: 'Ali', rating: 4.9, specialty: 'Modern Styles', avatar_url: '/barbers/ali.jpg', experience: '7 years' },
+      ])
+      setLoading(false)
+      return
+    }
     supabase.from('barbers').select('*').order('rating', { ascending: false })
       .then(({ data }) => { setBarbers(data || []); setLoading(false) })
   }, [])

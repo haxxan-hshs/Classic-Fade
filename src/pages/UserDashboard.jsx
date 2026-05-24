@@ -35,6 +35,10 @@ export default function UserDashboard() {
   }, [])
 
   const loadBookings = async (userId) => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
     const { data } = await supabase.from('bookings').select('*').eq('user_id', userId).order('created_at', { ascending: false })
     setBookings(data || [])
     setLoading(false)
